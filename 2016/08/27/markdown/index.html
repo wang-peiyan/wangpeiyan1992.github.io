@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<script src="/js/SimpleCore.js" type="text/javascript"></script>
+<!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/warn.html"><![endif]-->
+
+<title>Markdown标记语言学习</title>
+<meta name="author" content="Penny">
+
+<meta name="keywords" content="undefined">
+
+<meta name="description " content="Monkey">
+
+<link rel="icon" href="/images/favicon.png">
+
+<link rel="stylesheet" href="/css/style.css">
+
+  </head>
+  <body>
+    <aside id="sidebar">
+  <nav id="tags">
+    <a href="http://shuoit.net" id="avatar" style="background-image:url(/images/favicon.png)"></a>
+    <ul id="tags__ul">
+      <li id="pl__all" class="tags__li tags-btn active">所有文章</li>
+      
+      <li id="Git" class="tags__li tags-btn">Git</li>
+      
+      <li id="Markdown" class="tags__li tags-btn">Markdown</li>
+      
+      <li id="git博客" class="tags__li tags-btn">git博客</li>
+      
+    </ul>
+    <div id="tags__bottom">
+      <a href="http://github.com/tangkunyin" rel="nofollow" id="icon-github" target="_blank" class="tags-btn fontello"></a>
+      <a href="http://shang.qq.com/wpa/qunwpa?idkey=6dc2741479cd031cc533fe5080081df44d0f9d95bc5083e8e1244c92f4aae218" rel="nofollow" id="icon-qq" target="_blank" class="tags-btn fontello"></a>
+    </div>
+  </nav> <!-- end #tags -->
+  <div id="posts-list">
+    <form action="#" id="search-form" target="_blank">
+      <a href="/" id="mobile-avatar" style="background-image:url(/images/favicon.png)"></a>
+      <input id="search-input" type="text" placeholder="戳一下不会怀孕" />
+    </form>
+    <nav id="pl__container">
+      
+            
+                <a class="Git pl__all" href="/2016/09/29/gitblog/" title="Git博客配置">
+                  <span class="pl__circle"></span><span class="pl__title">Git博客配置</span><span class="pl__date">2016-09-29</span>
+                </a>
+            
+      
+            
+                <a class="Markdown pl__all" href="/2016/08/27/markdown/" title="Markdown标记语言学习">
+                  <span class="pl__circle"></span><span class="pl__title">Markdown标记语言学习</span><span class="pl__date">2016-08-27</span>
+                </a>
+            
+      
+            
+                <a class="git博客 pl__all" href="/2016/08/17/my-second-blog/" title="come on git博客！">
+                  <span class="pl__circle"></span><span class="pl__title">come on git博客！</span><span class="pl__date">2016-08-17</span>
+                </a>
+            
+      
+    </nav>
+  </div> <!-- end #posts-list -->
+</aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <div id="pjax">
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="2016-08-27">Markdown标记语言学习</h1>
+  <h1 id="Markdown标记语言学习"><a href="#Markdown标记语言学习" class="headerlink" title="Markdown标记语言学习"></a>Markdown标记语言学习</h1><h2 id="基本符号"><a href="#基本符号" class="headerlink" title="基本符号"></a>基本符号</h2><ul>
+<li><code>* + -</code>3个符号效果一样，被称为<strong>Markdown符号</strong></li>
+<li>空白行表示新起一个段落</li>
+<li>`这个符号表示inline代码，tab键是用来标记 代码段，分别对应html的code，pre标签    </li>
+</ul>
+<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><ul>
+<li>生成h1-h6的标题，在文字的前后加1~6个<code>#</code>来实现</li>
+<li><p><code>#</code>号的数量由少到多，字体依次变小<br></p>
+<p>  例如效果：</p>
+<pre><code>`#标题#`
+</code></pre><h1 id="标题-1"><a href="#标题-1" class="headerlink" title="标题"></a>标题</h1><pre><code>`###标题###`
+</code></pre><h3 id="标题-2"><a href="#标题-2" class="headerlink" title="标题"></a>标题</h3></li>
+</ul>
+<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><ul>
+<li>段落用单个<code>&lt;p&gt;</code>来实现</li>
+<li>换行用单个<code>br</code>来实现</li>
+<li>水平线用单个<code>hr</code>来实现,也可以用<code>***</code>来实现</li>
+</ul>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
+<li>在第一行加上<code>&gt;</code>和一个空格，表示代码引用，可以嵌套<blockquote>
+<p>例如：&gt;&nbsp;这是引用语法 整句效果是引用的效果</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>这个是markdown文件的主要表示方式，重点<br></p>
+<ul>
+<li>无序列表用 <code>*,+,-</code> 加上一个空格来实现</li>
+<li>可以支持嵌套</li>
+<li>有序列表用 <code>数字+英文点+空格</code>来实现</li>
+<li>列表内容很长，不需要手工输入换行符，css控制段落的宽度，会自动的缩放的</li>
+</ul>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
+<li>语法：<code>[锚文本]（url&quot;可选的title&quot;）</code></li>
+<li>引用 先定义[ref_name]:url,然后在需要写入url的地方，这样使用<code>[锚文本][ref_name]</code>,通常的ref_name一般用数字表示，这样显得专业</li>
+<li>简写url：用<code>&lt;http://www.baidu.com&gt;</code>，用这种形式写的就是url本身</li>
+<li><p>title 属性是选择性的，链接名称可以用字母、数字和空格，但是不分大小写</p>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><pre><code>例如：[点我点我我是度娘]（http://www.baidu.com/）
+</code></pre><p>输出Html为：</p>
+<pre><code>&lt;p&gt;&lt;a href=&quot;http://example.com/&quot;&gt;点我点我我是度娘&lt;/a&gt;&lt;/p&gt;
+</code></pre><p>加上title：</p>
+<pre><code>例如：[点我点我我是度娘]（http://www.baidu.com/ &quot;其实我哥哥 嘿嘿&quot;）
+</code></pre><p>输出Html为：</p>
+<pre><code>&lt;p&gt;&lt;a href=&quot;http://example.com/&quot; title=&quot;其实我哥哥 嘿嘿&quot;&gt;点我点我我是度娘&lt;/a&gt;&lt;/p&gt;
+</code></pre><h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>  [点我点我我是度娘][1]你信不？[我才是度娘][2]要不你点点我？[他们都不是百度][3]骗子 别点</p>
+</li>
+</ul>
+<pre><code>[1]: http://taobao.com/ &quot;taobao&quot;
+[2]: http://google.com/ &quot;google&quot;
+[3]: http://baidu.com/ &quot;baidu&quot;
+</code></pre><h2 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h2><ul>
+<li>一行表示: <code>![alt_text](url&quot;可选title&quot;)</code></li>
+<li>引用表示法: <code>！[alt_text][id]</code>,预先定义 [id]:url “可选title”</li>
+<li><p>直接使用<img>标签，这样可以指定图片的大小尺寸</p>
+<h3 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h3><pre><code>![alt text](/path/to/img.jpg &quot;icon&quot;)
+</code></pre></li>
+</ul>
+<h3 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h3><pre><code>![alt text][1]
+[1]: /path/to/img.jpg &quot;icon&quot;
+</code></pre><h2 id="斜体"><a href="#斜体" class="headerlink" title="斜体"></a>斜体</h2><ul>
+<li>文本前后各加一个<strong>Markdown符号</strong>，表示斜体</li>
+</ul>
+<h2 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h2><ul>
+<li>在文字前后各加两个<strong>Markdown符号</strong>，表示加粗</li>
+</ul>
+<h2 id="特殊符号"><a href="#特殊符号" class="headerlink" title="特殊符号"></a>特殊符号</h2><ul>
+<li>用\来转义，表示文本中的<strong>Markdown符号</strong></li>
+<li>可以在文本中直接使用html标签，但是要注意在使用的时候，前后加上空行</li>
+</ul>
+
+</article>
+<button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+  <div id="post__action">
+      <a id="icon-heart" class="fontello" href="javascript:donate();"></a>
+  </div>
+  <script src="/layer/layer.js" type="text/javascript"></script>
+  <script src="/layer/extend/layer.ext.js" type="text/javascript"></script>
+
+
+<!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="undefined" data-title="Markdown标记语言学习" data-url="http://shuoit.net/2016/08/27/markdown/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"shuoit"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+        <p id="copyright">由<a href="http://hexo.io" target="_blank">Hexo</a>创建&nbsp;&nbsp;|&nbsp;&nbsp;主题<a href="https://github.com/tangkunyin/hexo-theme-simple" target="_blank">Simple</a>&nbsp;&nbsp;|&nbsp;&nbsp;感谢<a href="https://coding.net/register?key=bcace447-fa41-4579-9783-86fdf0f723e2" target="_blank">Coding</a>提供强力驱动</p>
+<!-- 百度统计 -->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a01595b492af7e4a793230e3d49ae638";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+      </div>
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">目录</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
