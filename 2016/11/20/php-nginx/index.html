@@ -9,7 +9,7 @@
 <script src="/js/SimpleCore.js" type="text/javascript"></script>
 <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/warn.html"><![endif]-->
 
-<title>王培艳的个人博客 - 小猴儿</title>
+<title>CGI FastCGI PHP-FPM Nginx之间的关系</title>
 <meta name="author" content="Penny">
 
 <meta name="keywords" content="undefined">
@@ -79,10 +79,9 @@
 
     <div id="post">
       <div id="pjax">
-        
-    <article id="post__content">
-      <h1 id="post__title" data-identifier="2016-11-20">CGI FastCGI PHP-FPM Nginx之间的关系</h1>
-      <h1 id="CGI-FastCGI-PHP-FPM-PHP-CGI-Nginx之间的关系"><a href="#CGI-FastCGI-PHP-FPM-PHP-CGI-Nginx之间的关系" class="headerlink" title="CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系"></a>CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系</h1><p>首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？</p>
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="2016-11-20">CGI FastCGI PHP-FPM Nginx之间的关系</h1>
+  <h1 id="CGI-FastCGI-PHP-FPM-PHP-CGI-Nginx之间的关系"><a href="#CGI-FastCGI-PHP-FPM-PHP-CGI-Nginx之间的关系" class="headerlink" title="CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系"></a>CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系</h1><p>首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？</p>
 <ul>
 <li>CGI通信协议</li>
 <li>FastCGI</li>
@@ -123,8 +122,8 @@
 </blockquote>
 <h2 id="Apache-Nginx与PHP的通信方式"><a href="#Apache-Nginx与PHP的通信方式" class="headerlink" title="Apache Nginx与PHP的通信方式"></a>Apache Nginx与PHP的通信方式</h2><p>PHP-FPM作为一个独立的进程存在，通过socket与Nginx建立连接，而mod_PHP时作为一个模块被加载进了Apache服务器，同时他们两作为CGI调度管理器，他们对其管理的方式也不一样。mod_PHP这种嵌入的方式最大的弊端就是内存占用大，不论是否用到PHP解析器都会将其加载到内存中，典型的就是处理CSS、JS之类的静态文件时完全没有必要加载解析器</p>
 
-    </article>
-    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+</article>
+<button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
 
   <div id="post__action">
       <a id="icon-heart" class="fontello" href="javascript:donate();"></a>
@@ -149,8 +148,6 @@ var duoshuoQuery = {short_name:"shuoit"};
 	})();
 	</script>
 <!-- 多说公共JS代码 end -->
-
-
 
         <p id="copyright">由<a href="http://hexo.io" target="_blank">Hexo</a>创建&nbsp;&nbsp;|&nbsp;&nbsp;主题<a href="https://github.com/tangkunyin/hexo-theme-simple" target="_blank">Simple</a>&nbsp;&nbsp;|&nbsp;&nbsp;感谢<a href="https://coding.net/register?key=bcace447-fa41-4579-9783-86fdf0f723e2" target="_blank">Coding</a>提供强力驱动</p>
 <!-- 百度统计 -->
