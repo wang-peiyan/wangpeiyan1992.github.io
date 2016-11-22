@@ -73,682 +73,171 @@
     <div id="container">
       <div id="main">
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/11/22/php-garbage-collection/" title="PHP的垃圾回收机制(Garbage Collection)" itemprop="url">PHP的垃圾回收机制(Garbage Collection)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
-		
-  <p class="article-time">
-    <time datetime="2016-11-21T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-11-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="PHP5-3之前的是单纯的“引用计数”"><a href="#PHP5-3之前的是单纯的“引用计数”" class="headerlink" title="PHP5.3之前的是单纯的“引用计数”"></a>PHP5.3之前的是单纯的“引用计数”</h2><ul>
-<li>PHP5以后有的垃圾回收机制</li>
-<li>zval ：内存对象</li>
-<li>is_ref:bool 表示zval是否被变量引用</li>
-<li>refcount: 计数器</li>
-</ul>
-<p>当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表示内存对象没有被使用，该内存对象则进行销毁，垃圾回收完成</p>
-<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><p>当两个或者多个对象互相引用形成环状后，内存对象的计数器则不会消减为0，这时候这一组内存对象已经没用， 但是不能回收，从而导致内存泄漏，引擎将无法回收这些内存。</p>
-<h2 id="PHP5-3开始-Garbage-Collection"><a href="#PHP5-3开始-Garbage-Collection" class="headerlink" title="PHP5.3开始 Garbage Collection"></a>PHP5.3开始 Garbage Collection</h2><p>PHP5.3开始，使用了新的垃圾回收机制，在“引用计数”上实现了一种算法，来检测内存对象引用环的存在，以避免内存泄漏</p>
-<h3 id="Garbage-Collection的机制"><a href="#Garbage-Collection的机制" class="headerlink" title="Garbage Collection的机制"></a>Garbage Collection的机制</h3><p>当一个zval可能为垃圾时，回收算法会把这个zval放入一个内存缓冲区。当缓冲区达到最大临界值时（最大值可以设置），回收算法会循环遍历所有缓冲区中的zval，判断其是否为垃圾，并进行释放处理。或者我们在脚本中使用gc_collect_cycles,强制回收缓冲区中的垃圾。</p>
-<p>在php5.3的GC中，针对的垃圾做了如下说明：</p>
-<ul>
-<li>计数器增加时，肯定在用，不为垃圾，不放入缓冲区</li>
-<li>计数器为0时，该内存对象立即释放，不属于GC要处理对象</li>
-<li>计数器减少并且大于0，该内存对象还不能被释放，有可能是垃圾，放入缓冲区 PHP5.3开始中的Garbage Collection就是针对这种处理的</li>
-</ul>
-<p>开启/关闭垃圾回收机制可以通过修改php配置实现，也可以在程序中使用gc_enable() 和 gc_disable()开启和关闭。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/PHP/">PHP</a>
-</div>
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/PHP-garbage-collection/">PHP garbage collection</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/11/20/php-nginx/" title="CGI FastCGI PHP-FPM Nginx之间的关系" itemprop="url">CGI FastCGI PHP-FPM Nginx之间的关系</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
-		
-  <p class="article-time">
-    <time datetime="2016-11-19T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-11-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？</p>
-<ul>
-<li>CGI通信协议</li>
-<li>FastCGI</li>
-<li>PHP-CGI</li>
-<li>PHP-FPM</li>
-<li>web服务器</li>
-<li>进程、主进程（master）、子进程（worker）</li>
-<li>PHP解析器</li>
-</ul>
-<h2 id="CGI是什么？"><a href="#CGI是什么？" class="headerlink" title="CGI是什么？"></a>CGI是什么？</h2><p>CGI(Common Gateway Interface)通用网关接口，web服务器和脚本语言通信的一个标准接口、一种规范、一种协议［协议］</p>
-<h2 id="FastCGI是什么？以及它的工作原理"><a href="#FastCGI是什么？以及它的工作原理" class="headerlink" title="FastCGI是什么？以及它的工作原理"></a>FastCGI是什么？以及它的工作原理</h2><p>CGI的升级版［协议］<br>FastCGI是基于CGI架构的扩展，它的核心思想就是在webserver和具体CGI程序之间建立一个智能的可持续的中间层，统管CGI程序的运行，这样webserver只需要将请求提交给这个层，这个层再派生出几个可复用的CGI程序实例，然后再把请求分发给这些实例，这些实例是可控的，可持续 可复用的，因此一方面避免了进程反复fork，另一方面又可以通过中间层的控制和探测机制来监视这些实例的运行情况，根据不同的状况fork或者回收实例，达到灵活性和稳定性兼得的目的。</p>
-<p>特点：</p>
-<ul>
-<li>FastCGI采用C/S结构，可以将web服务器和动态脚本解析服务器分离（二者可以部署在不同的服务器上），让web服务器专一处理静态请求和转发动态请求到脚本解析服务器；脚本解析服务器则专一处理动态脚本的请求</li>
-<li>FastCGI技术目前支持语言有：C/C++ 、java、Perl、Tcl、Python、SmallTalk、Ruby等。相关模块在Apache、IIS、Lighttpd等流行的服务器上也是可用的</li>
-<li>FastCGI不依赖于任何Web服务器的内部架构，因此即使服务器技术的变化，FastCGI依然稳定不变</li>
-<li>因为是多进程，所以比CGI线程消耗更多的服务器内存，PHP-CGI解析起每进程消耗7至25兆内存，将这个数字乘以50或100就是很大的内存数</li>
-</ul>
-<h2 id="PHP-CGI"><a href="#PHP-CGI" class="headerlink" title="PHP-CGI"></a>PHP-CGI</h2><p>实现了CGI接口协议的PHP脚本解析器［程序］</p>
-<p>特点：</p>
-<ul>
-<li>PHP-CGI变更PHP.ini配置后需重启PHP-CGI才能让新的php.ini生效，不可以平滑重启</li>
-<li>直接杀死PHP-CGI进程，PHP就不能运行了。</li>
-</ul>
-<h2 id="PHP-FPM"><a href="#PHP-FPM" class="headerlink" title="PHP-FPM"></a>PHP-FPM</h2><p>PHP-FPM是管理和调度PHP-CGI进程，进而实现FastCGI接口协议的程序，被PHP官方收购 在5.2之前属于PHP的扩展和补丁，5.3以后就集成在PHP的内核中。［程序］</p>
-<p>特点：</p>
-<ul>
-<li>PHP-FPM提供了更好的PHP进程管理方式，可以有效控制内存和进程、可以平滑重载PHP配置。在./configure的时候–enable-fpm 参数即可开启PHP-FPM</li>
-</ul>
-<h2 id="web服务器"><a href="#web服务器" class="headerlink" title="web服务器"></a>web服务器</h2><p>webserver（Nginx Apache IIs ）只能处理静态文件，对于PHP这样的动态脚本无能为力，只能交给PHP自己来处理于是有了下面这个流程：</p>
-<ul>
-<li>服务器（webserver）－－－协议（CGI通信）－－－ 程序（PHP-CGI）－－－ 脚本（PHP）</li>
-<li>服务器（webserver）－－－协议（FastCGI通信）－－－ PHP-FPM －－－ 程序（PHP-CGI多个）－－－ 脚本（PHP）</li>
-</ul>
-<blockquote>
-<p>第一种：架构上有个性能问题，CGI对每个请求回parse一遍对应脚本的配置文件（如PHP.ini）,加载配置和扩展，初始化执行环境，性能非常差，所以有了第二种流程</p>
-<p>第二种：那么实现FastCGI协议的程序，如PHP-FPM是什么角色呢？FastCGI会先启动一个master程序，解析配置文件，初始化执行环境，然后在启动多个worker进程，这个worker就是PHP-CGI，当请求过来时，master会传递给一个worker，然后立即可以接受下一个请求，这样就避免了重复的劳动，效率自然是高，而去当worker不够用时，master可以根据配置预先启动几个worker等着，比如20worker，当然空闲的worker 太多时，也会停掉一些，这样就提高来性能，也解约了资源，这就是FastCGI对进程的管理。最大的worker进程数时128</p>
-</blockquote>
-<h2 id="Apache-Nginx与PHP的通信方式"><a href="#Apache-Nginx与PHP的通信方式" class="headerlink" title="Apache Nginx与PHP的通信方式"></a>Apache Nginx与PHP的通信方式</h2><p>PHP-FPM作为一个独立的进程存在，通过socket与Nginx建立连接，而mod_PHP时作为一个模块被加载进了Apache服务器，同时他们两作为CGI调度管理器，他们对其管理的方式也不一样。mod_PHP这种嵌入的方式最大的弊端就是内存占用大，不论是否用到PHP解析器都会将其加载到内存中，典型的就是处理CSS、JS之类的静态文件时完全没有必要加载解析器</p>
-<h2 id="Nginx如何处理来自PHP的请求"><a href="#Nginx如何处理来自PHP的请求" class="headerlink" title="Nginx如何处理来自PHP的请求"></a>Nginx如何处理来自PHP的请求</h2><ul>
-<li>nginx服务器启动时，自动载入fastcgi进程管理器（php-fpm）</li>
-<li>php-fpm自动初始化，并且启动多个cgi解释进程（phpcgi）并等待nginx链接</li>
-<li>当nginx服务器收到需要解析的php请求时，将请求转到fastcgi接口(soket),fastcgi进程管理器（php-fpm）收到请求后连接phpcgi解释器，nginx服务器将cgi环境变量和标准输入发送给cgi解释器（php-cgi）</li>
-<li>FastCGI子进程（php-cgi）完成处理后将标准输出和错误信息从同一链接返回，webserver，当fastcgi子进程关闭连接时，请求便告知处理完成，Fastcgi子进程（php-cgi）接着等待并处理来自webserver请求的（php-fpm）分配的任务</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Nginx/">Nginx</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/PHP-FPM-Nginx/">PHP-FPM Nginx</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/11/03/hello-world/" title="Hello World" itemprop="url">Hello World</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
-		
-  <p class="article-time">
-    <time datetime="2016-11-03T12:20:24.618Z" itemprop="datePublished"> 发表于 2016-11-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand photo" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/09/29/gitblog/" title="Git博客配置" itemprop="url">Git博客配置</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
-		
-  <p class="article-time">
-    <time datetime="2016-09-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-09-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="检查本机是否安装Node"><a href="#检查本机是否安装Node" class="headerlink" title="检查本机是否安装Node"></a>检查本机是否安装Node</h2><ul>
-<li>执行该命令 npm node -v  </li>
-<li>如果已安装进行会显示版本号</li>
-<li>如果未安装请先安装node</li>
-</ul>
-<h2 id="检查本机是否安装Git"><a href="#检查本机是否安装Git" class="headerlink" title="检查本机是否安装Git"></a>检查本机是否安装Git</h2><ul>
-<li>npm git -v</li>
-<li>如果已安装进行会显示版本号</li>
-<li>如果未安装请先安装git</li>
-<li>mac版下载的软件提示无法打开时 按control＋点击打开便可</li>
-</ul>
-<h2 id="GitHib账号如没有先注册"><a href="#GitHib账号如没有先注册" class="headerlink" title="GitHib账号如没有先注册"></a>GitHib账号如没有先注册</h2><h2 id="打开github网站登录"><a href="#打开github网站登录" class="headerlink" title="打开github网站登录"></a>打开github网站登录</h2><ul>
-<li>点击右上角，new repository<br><img src="gitblog/1.png" alt=""></li>
-<li>填写仓库信息<br><img src="gitblog/2.png" alt=""></li>
-<li>点击setting<br><img src="gitblog/3.png" alt=""></li>
-<li>点击<br><img src="gitblog/4.png" alt=""></li>
-<li>不作任何修改，点击<br><img src="gitblog/5.png" alt=""></li>
-<li>不做任何修改，点击publish page<br><img src="gitblog/6.png" alt=""></li>
-<li>此时在浏览器中输http:lilianghong.github.io/ 应该可以打开博客</li>
-</ul>
-<h2 id="首先设置你的用户名密码"><a href="#首先设置你的用户名密码" class="headerlink" title="首先设置你的用户名密码"></a>首先设置你的用户名密码</h2><ul>
-<li>git config –global user.email “wpyphp@163.com”</li>
-<li>git confit –global user.name  “wangpeiyan1992”</li>
-</ul>
-<h2 id="在命令行下，生称sshkey"><a href="#在命令行下，生称sshkey" class="headerlink" title="在命令行下，生称sshkey"></a>在命令行下，生称sshkey</h2><ul>
-<li>ssh-keygen -t rsa -C “wpyphp@163.com”</li>
-<li>ssh-keygen -t rsa -C “wpyphp@163.com” -f ~/.ssh/github 生成指定名字的key  此名字为github</li>
-<li>生成密钥后到cd ~/.ssh 下打开github.pub 全选复制打开github－setting－add sshkey 将刚才复制的内容粘贴在此处 保存</li>
-</ul>
-<h2 id="验证一下是否成功"><a href="#验证一下是否成功" class="headerlink" title="验证一下是否成功"></a>验证一下是否成功</h2><ul>
-<li>ssh -T git@github.com</li>
-<li>成功执行下一步 失败请重新设置</li>
-</ul>
-<h2 id="安装hexo，执行以下命令"><a href="#安装hexo，执行以下命令" class="headerlink" title="安装hexo，执行以下命令"></a>安装hexo，执行以下命令</h2><ul>
-<li>npm install -g hexo    注意：mac本要加sudo</li>
-<li>npm hexo -v            #查看版本号</li>
-</ul>
-<h2 id="自己新建一个目录，到目录里初始化"><a href="#自己新建一个目录，到目录里初始化" class="headerlink" title="自己新建一个目录，到目录里初始化"></a>自己新建一个目录，到目录里初始化</h2><ul>
-<li>hexo init wangpeiyan1992.github.io</li>
-</ul>
-<h2 id="找到该目录下config-yml文件打开添加以下代码"><a href="#找到该目录下config-yml文件打开添加以下代码" class="headerlink" title="找到该目录下config.yml文件打开添加以下代码"></a>找到该目录下config.yml文件打开添加以下代码</h2><ul>
-<li><p>注意根据自己本机安装有几个项目和密钥 对应几个配置 </p>
-<pre><code>host github.com
-    user git 
-    hostname github.com
-    port 22
-    identityfile ~ /.ssh/github
-
-host git.emao.net
-    user git 
-    hostname git.emao.net
-    port 22
-    identityfile ~/.ssh/emao
-</code></pre></li>
-</ul>
-<h2 id="生成静态页面"><a href="#生成静态页面" class="headerlink" title="生成静态页面"></a>生成静态页面</h2><ul>
-<li>hexo generate </li>
-</ul>
-<h2 id="本地启动服务"><a href="#本地启动服务" class="headerlink" title="本地启动服务"></a>本地启动服务</h2><ul>
-<li>hexo server</li>
-</ul>
-<h2 id="此时浏览器输入以下地址就可以看到效果"><a href="#此时浏览器输入以下地址就可以看到效果" class="headerlink" title="此时浏览器输入以下地址就可以看到效果"></a>此时浏览器输入以下地址就可以看到效果</h2><ul>
-<li><a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a></li>
-</ul>
-<h2 id="创建一篇博客"><a href="#创建一篇博客" class="headerlink" title="创建一篇博客"></a>创建一篇博客</h2><ul>
-<li>新建 hexo new “my first blog” 注意：服务不能关闭 可以新打开一个终端</li>
-<li>此时到io - source - _posts 下找到新建的文件</li>
-<li><p>打开文件看到以下内容</p>
-<pre><code>---
-title: { { title } } postName #文章页面上的显示名称，可以任意修改，不会出现在URL中
-date: { { date } } #文章生成时间，一般不改，当然也可以任意修改
-categories: #文章分类目录，可以为空，注意:后面有个空格
-tags: #文章标签，可空，多标签请用格式[tag1,tag2,tag3]，注意:后面有个空格
----
-这里开始使用markdown格式输入你的正文。
-</code></pre></li>
-<li>用喜欢的编辑器编辑即可</li>
-</ul>
-<h2 id="生成并发布"><a href="#生成并发布" class="headerlink" title="生成并发布"></a>生成并发布</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><ul>
-<li>生成 hexo generate</li>
-<li>发布 hexo deploy</li>
-</ul>
-<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><ul>
-<li>hexo deploy －g</li>
-</ul>
-<h2 id="总结常用命令"><a href="#总结常用命令" class="headerlink" title="总结常用命令"></a>总结常用命令</h2><ul>
-<li>hexo new “postName” 新建文章</li>
-<li>hexo new page “pageName“ 新建页面</li>
-<li>hexo generate  生成页面</li>
-<li>hexo server    开启服务</li>
-<li>hexo deploy    发布文章</li>
-</ul>
-<h3 id="常用符合命令"><a href="#常用符合命令" class="headerlink" title="常用符合命令"></a>常用符合命令</h3><ul>
-<li>hexo deploy -g 生成并发布</li>
-<li>hexo server -g 启动服务并生成页面</li>
-</ul>
-<h3 id="简写命令"><a href="#简写命令" class="headerlink" title="简写命令"></a>简写命令</h3><ul>
-<li>hexo n == hexo new</li>
-<li>hexo g == hexo generate</li>
-<li>hexo s == hexo server</li>
-<li>hexo d == hexo deploy</li>
-</ul>
-<h2 id="主题安装"><a href="#主题安装" class="headerlink" title="主题安装"></a>主题安装</h2><ul>
-<li><p>git clone <a href="https://github.com/heroicyang/hexo-theme-modernist.git" target="_blank" rel="external">https://github.com/heroicyang/hexo-theme-modernist.git</a> themes/modernist</p>
-</li>
-<li><p>安装完成后，打开hexo|_config.yml 修改主题为modernist<br>theme: modernist</p>
-</li>
-<li><p>打开hexo|themes|modernist目录，打开_config.yml</p>
-<pre><code>menu: #配置页头显示哪些菜单
-#  Home: /
-  Archives: /archives
-  Reading: /reading
-  About: /about
-#  Guestbook: /about
-
-excerpt_link: Read More #摘要链接文字
-archive_yearly: false #按年存档
-
-widgets: #配置页脚显示哪些小挂件
-  - category
-#  - tag
-  - tagcloud
-  - recent_posts
-#  - blogroll
-
-blogrolls: #友情链接
-  - bruce sha&apos;s duapp wordpress: http://ibruce.duapp.com
-  - bruce sha&apos;s javaeye: http://buru.iteye.com
-  - bruce sha&apos;s oschina blog: http://my.oschina.net/buru
-  - bruce sha&apos;s baidu space: http://hi.baidu.com/iburu
-
-fancybox: true #是否开启fancybox效果
-
-duoshuo_shortname: buru #多说账号
-
-google_analytics:
-rss:
-</code></pre></li>
-</ul>
-<h2 id="更新主题"><a href="#更新主题" class="headerlink" title="更新主题"></a>更新主题</h2><ul>
-<li>cd themes/modernist</li>
-<li>git pull</li>
-</ul>
-<p>photos:</p>
-<ul>
-<li><a href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" target="_blank" rel="external">http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg</a></li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Git/">Git</a>
-</div>
-
-
-  <div class="article-tags">
+    <a href="/2016/11/22/php-garbage-collection/" title="PHP的垃圾回收机制(Garbage Collection)" itemprop="url">
   
-  <span></span> <a href="/tags/Git博客/">Git博客</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">PHP的垃圾回收机制(Garbage Collection)</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >PHP5.3之前的是单纯的“引用计数”
+PHP5以后有的垃圾回收机制
+zval ：内存对象
+is_ref:bool 表示zval是否被变量引用
+refcount: 计数器
+
+当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表</p>
+        
     
-      <a href="/2016/08/27/markdown/" title="Markdown标记语言学习" itemprop="url">Markdown标记语言学习</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
-		
-  <p class="article-time">
-    <time datetime="2016-08-27T06:24:23.000Z" itemprop="datePublished"> 发表于 2016-08-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Markdown标记语言学习"><a href="#Markdown标记语言学习" class="headerlink" title="Markdown标记语言学习"></a>Markdown标记语言学习</h1><h2 id="基本符号"><a href="#基本符号" class="headerlink" title="基本符号"></a>基本符号</h2><ul>
-<li><code>* + -</code>3个符号效果一样，被称为<strong>Markdown符号</strong></li>
-<li>空白行表示新起一个段落</li>
-<li>`这个符号表示inline代码，tab键是用来标记 代码段，分别对应html的code，pre标签    </li>
-</ul>
-<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><ul>
-<li>生成h1-h6的标题，在文字的前后加1~6个<code>#</code>来实现</li>
-<li><p><code>#</code>号的数量由少到多，字体依次变小<br></p>
-<p>  例如效果：</p>
-<pre><code>`#标题#`
-</code></pre><h1 id="标题-1"><a href="#标题-1" class="headerlink" title="标题"></a>标题</h1><pre><code>`###标题###`
-</code></pre><h3 id="标题-2"><a href="#标题-2" class="headerlink" title="标题"></a>标题</h3></li>
-</ul>
-<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><ul>
-<li>段落用单个<code>&lt;p&gt;</code>来实现</li>
-<li>换行用单个<code>br</code>来实现</li>
-<li>水平线用单个<code>hr</code>来实现,也可以用<code>***</code>来实现</li>
-</ul>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ul>
-<li>在第一行加上<code>&gt;</code>和一个空格，表示代码引用，可以嵌套<blockquote>
-<p>例如：&gt;&nbsp;这是引用语法 整句效果是引用的效果</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>这个是markdown文件的主要表示方式，重点<br></p>
-<ul>
-<li>无序列表用 <code>*,+,-</code> 加上一个空格来实现</li>
-<li>可以支持嵌套</li>
-<li>有序列表用 <code>数字+英文点+空格</code>来实现</li>
-<li>列表内容很长，不需要手工输入换行符，css控制段落的宽度，会自动的缩放的</li>
-</ul>
-<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
-<li>语法：<code>[锚文本]（url&quot;可选的title&quot;）</code></li>
-<li>引用 先定义[ref_name]:url,然后在需要写入url的地方，这样使用<code>[锚文本][ref_name]</code>,通常的ref_name一般用数字表示，这样显得专业</li>
-<li>简写url：用<code>&lt;http://www.baidu.com&gt;</code>，用这种形式写的就是url本身</li>
-<li><p>title 属性是选择性的，链接名称可以用字母、数字和空格，但是不分大小写</p>
-<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><pre><code>例如：[点我点我我是度娘]（http://www.baidu.com/）
-</code></pre><p>输出Html为：</p>
-<pre><code>&lt;p&gt;&lt;a href=&quot;http://example.com/&quot;&gt;点我点我我是度娘&lt;/a&gt;&lt;/p&gt;
-</code></pre><p>加上title：</p>
-<pre><code>例如：[点我点我我是度娘]（http://www.baidu.com/ &quot;其实我哥哥 嘿嘿&quot;）
-</code></pre><p>输出Html为：</p>
-<pre><code>&lt;p&gt;&lt;a href=&quot;http://example.com/&quot; title=&quot;其实我哥哥 嘿嘿&quot;&gt;点我点我我是度娘&lt;/a&gt;&lt;/p&gt;
-</code></pre><h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>  [点我点我我是度娘][1]你信不？[我才是度娘][2]要不你点点我？[他们都不是百度][3]骗子 别点</p>
-</li>
-</ul>
-<pre><code>[1]: http://taobao.com/ &quot;taobao&quot;
-[2]: http://google.com/ &quot;google&quot;
-[3]: http://baidu.com/ &quot;baidu&quot;
-</code></pre><h2 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h2><ul>
-<li>一行表示: <code>![alt_text](url&quot;可选title&quot;)</code></li>
-<li>引用表示法: <code>！[alt_text][id]</code>,预先定义 [id]:url “可选title”</li>
-<li><p>直接使用<img>标签，这样可以指定图片的大小尺寸</p>
-<h3 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h3><pre><code>![alt text](/path/to/img.jpg &quot;icon&quot;)
-</code></pre></li>
-</ul>
-<h3 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h3><pre><code>![alt text][1]
-[1]: /path/to/img.jpg &quot;icon&quot;
-</code></pre><h2 id="斜体"><a href="#斜体" class="headerlink" title="斜体"></a>斜体</h2><ul>
-<li>文本前后各加一个<strong>Markdown符号</strong>，表示斜体</li>
-</ul>
-<h2 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h2><ul>
-<li>在文字前后各加两个<strong>Markdown符号</strong>，表示加粗</li>
-</ul>
-<h2 id="特殊符号"><a href="#特殊符号" class="headerlink" title="特殊符号"></a>特殊符号</h2><ul>
-<li>用\来转义，表示文本中的<strong>Markdown符号</strong></li>
-<li>可以在文本中直接使用html标签，但是要注意在使用的时候，前后加上空行</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Markdown/">Markdown</a>
-</div>
+    <time datetime="2016-11-21T16:00:00.000Z" itemprop="datePublished">2016-11-22</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/Markdown/">Markdown</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/08/17/my-second-blog/" title="come on git博客！" itemprop="url">come on git博客！</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
-		
-  <p class="article-time">
-    <time datetime="2016-08-17T09:57:37.000Z" itemprop="datePublished"> 发表于 2016-08-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>哈哈哈哈 博客生涯开始啦啦啦啦啦！ 都得有空格</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/git博客/">git博客</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/git博客命令练习/">git博客命令练习</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <a href="/2016/11/20/php-nginx/" title="CGI FastCGI PHP-FPM Nginx之间的关系" itemprop="url">
+  
+    <h1 itemprop="name">CGI FastCGI PHP-FPM Nginx之间的关系</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
+
+CGI通信协议
+FastCGI
+PHP-CGI
+PHP-FPM
+web服务器
+进程、主进程（master）、子进程（worker）
+PHP解析器
+
+CGI是什么？CGI(Common Gateway </p>
+        
     
-      <a href="/2016/08/17/my-first-blog/" title="my first blog" itemprop="url">my first blog</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
-		
-  <p class="article-time">
-    <time datetime="2016-08-17T09:03:21.000Z" itemprop="datePublished"> 发表于 2016-08-17</time>
+    <time datetime="2016-11-19T16:00:00.000Z" itemprop="datePublished">2016-11-20</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/11/03/hello-world/" title="Hello World" itemprop="url">
+  
+    <h1 itemprop="name">Hello World</h1>
     
-  </p>
-</header>
-    <div class="article-content">
+     
+           <p itemprop="description" >Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the </p>
         
-        <p>哈哈 哈哈 ！</p>
+    
+    <time datetime="2016-11-03T12:20:24.618Z" itemprop="datePublished">2016-11-03</time>
+  </a>
+</section>
 
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/09/29/gitblog/" title="Git博客配置" itemprop="url">
+  
+    <h1 itemprop="name">Git博客配置</h1>
+    
+     
+           <p itemprop="description" >检查本机是否安装Node
+执行该命令 npm node -v  
+如果已安装进行会显示版本号
+如果未安装请先安装node
+
+检查本机是否安装Git
+npm git -v
+如果已安装进行会显示版本号
+如果未安装请先安装git
+mac版下载的软件提示无法打开时 按control＋点击</p>
         
+    
+    <time datetime="2016-09-28T16:00:00.000Z" itemprop="datePublished">2016-09-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/08/27/markdown/" title="Markdown标记语言学习" itemprop="url">
+  
+    <h1 itemprop="name">Markdown标记语言学习</h1>
+    
+     
+           <p itemprop="description" >Markdown标记语言学习基本符号
+* + -3个符号效果一样，被称为Markdown符号
+空白行表示新起一个段落
+`这个符号表示inline代码，tab键是用来标记 代码段，分别对应html的code，pre标签    
+
+标题
+生成h1-h6的标题，在文字的前后加1~6个#</p>
         
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
+    
+    <time datetime="2016-08-27T06:24:23.000Z" itemprop="datePublished">2016-08-27</time>
+  </a>
+</section>
 
 
 
 
-<div class="comments-count">
-	
-</div>
-
-</footer>
 
 
-    </article>
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/08/17/my-second-blog/" title="come on git博客！" itemprop="url">
+  
+    <h1 itemprop="name">come on git博客！</h1>
+    
+     
+           <p itemprop="description" >哈哈哈哈 博客生涯开始啦啦啦啦啦！ 都得有空格</p>
+        
+    
+    <time datetime="2016-08-17T09:57:37.000Z" itemprop="datePublished">2016-08-17</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/08/17/my-first-blog/" title="my first blog" itemprop="url">
+  
+    <h1 itemprop="name">my first blog</h1>
+    
+     
+           <p itemprop="description" >哈哈 哈哈 ！</p>
+        
+    
+    <time datetime="2016-08-17T09:03:21.000Z" itemprop="datePublished">2016-08-17</time>
+  </a>
+</section>
 
 
 
