@@ -79,6 +79,82 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/11/22/php-garbage-collection/" title="PHP的垃圾回收机制" itemprop="url">PHP的垃圾回收机制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
+		
+  <p class="article-time">
+    <time datetime="2016-11-21T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-11-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="PHP的垃圾回收机制-Garbage-Collection"><a href="#PHP的垃圾回收机制-Garbage-Collection" class="headerlink" title="PHP的垃圾回收机制(Garbage Collection)"></a>PHP的垃圾回收机制(Garbage Collection)</h1><h2 id="PHP5-3之前的是单纯的“引用计数”"><a href="#PHP5-3之前的是单纯的“引用计数”" class="headerlink" title="PHP5.3之前的是单纯的“引用计数”"></a>PHP5.3之前的是单纯的“引用计数”</h2><ul>
+<li>PHP5以后有的垃圾回收机制</li>
+<li>zval ：内存对象</li>
+<li>is_ref:bool 表示zval是否被变量引用</li>
+<li>refcount: 计数器</li>
+</ul>
+<p>当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表示内存对象没有被使用，该内存对象则进行销毁，垃圾回收完成</p>
+<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><p>当两个或者多个对象互相引用形成环状后，内存对象的计数器则不会消减为0，这时候这一组内存对象已经没用， 但是不能回收，从而导致内存泄漏，引擎将无法回收这些内存。</p>
+<h2 id="PHP5-3开始-Garbage-Collection"><a href="#PHP5-3开始-Garbage-Collection" class="headerlink" title="PHP5.3开始 Garbage Collection"></a>PHP5.3开始 Garbage Collection</h2><p>PHP5.3开始，使用了新的垃圾回收机制，在“引用计数”上实现了一种算法，来检测内存对象引用环的存在，以避免内存泄漏</p>
+<h3 id="Garbage-Collection的机制"><a href="#Garbage-Collection的机制" class="headerlink" title="Garbage Collection的机制"></a>Garbage Collection的机制</h3><p>当一个zval可能为垃圾时，回收算法会把这个zval放入一个内存缓冲区。当缓冲区达到最大临界值时（最大值可以设置），回收算法会循环遍历所有缓冲区中的zval，判断其是否为垃圾，并进行释放处理。或者我们在脚本中使用gc_collect_cycles,强制回收缓冲区中的垃圾。</p>
+<p>在php5.3的GC中，针对的垃圾做了如下说明：</p>
+<ul>
+<li>计数器增加时，肯定在用，不为垃圾，不放入缓冲区</li>
+<li>计数器为0时，该内存对象立即释放，不属于GC要处理对象</li>
+<li>计数器减少并且大于0，该内存对象还不能被释放，有可能是垃圾，放入缓冲区 PHP5.3开始中的Garbage Collection就是针对这种处理的</li>
+</ul>
+<p>开启/关闭垃圾回收机制可以通过修改php配置实现，也可以在程序中使用gc_enable() 和 gc_disable()开启和关闭。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/PHP/">PHP</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/PHP-garbage-collection/">PHP garbage collection</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/11/20/php-nginx/" title="CGI FastCGI PHP-FPM Nginx之间的关系" itemprop="url">CGI FastCGI PHP-FPM Nginx之间的关系</a>
   </h1>
   <p class="article-author">By
@@ -708,6 +784,10 @@ rss:
 		  
 		
 		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/git博客/" title="git博客">git博客<sup>1</sup></a></li>
 		  
 		
@@ -734,6 +814,10 @@ rss:
 		
 			
 				<li><a href="/tags/PHP-FPM-Nginx/" title="PHP-FPM Nginx">PHP-FPM Nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PHP-garbage-collection/" title="PHP garbage collection">PHP garbage collection<sup>1</sup></a></li>
 			
 		
 		</ul>

@@ -4,26 +4,44 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | 小猴儿</title>
+    <title>PHP的垃圾回收机制 | 小猴儿</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Penny">
     
 
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+    <meta name="description" content="PHP的垃圾回收机制(Garbage Collection)PHP5.3之前的是单纯的“引用计数”
+PHP5以后有的垃圾回收机制
+zval ：内存对象
+is_ref:bool 表示zval是否被变量引用
+refcount: 计数器
+
+当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表示内存对象没有被使用，该内存对象则进行销毁，垃圾回收完成
+存">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://www.ipeiyan.com/2016/11/03/hello-world/index.html">
+<meta property="og:title" content="PHP的垃圾回收机制">
+<meta property="og:url" content="http://www.ipeiyan.com/2016/11/22/php-garbage-collection/index.html">
 <meta property="og:site_name" content="小猴儿">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-11-03T12:20:24.619Z">
+<meta property="og:description" content="PHP的垃圾回收机制(Garbage Collection)PHP5.3之前的是单纯的“引用计数”
+PHP5以后有的垃圾回收机制
+zval ：内存对象
+is_ref:bool 表示zval是否被变量引用
+refcount: 计数器
+
+当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表示内存对象没有被使用，该内存对象则进行销毁，垃圾回收完成
+存">
+<meta property="og:updated_time" content="2016-11-22T11:09:19.875Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="PHP的垃圾回收机制">
+<meta name="twitter:description" content="PHP的垃圾回收机制(Garbage Collection)PHP5.3之前的是单纯的“引用计数”
+PHP5以后有的垃圾回收机制
+zval ：内存对象
+is_ref:bool 表示zval是否被变量引用
+refcount: 计数器
+
+当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表示内存对象没有被使用，该内存对象则进行销毁，垃圾回收完成
+存">
 
     
     <link rel="alternative" href="/atom.xml" title="小猴儿" type="application/atom+xml">
@@ -81,14 +99,14 @@ Quick">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/11/03/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2016/11/22/php-garbage-collection/" title="PHP的垃圾回收机制" itemprop="url">PHP的垃圾回收机制</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
 		
   <p class="article-time">
-    <time datetime="2016-11-03T12:20:24.618Z" itemprop="datePublished"> 发表于 2016-11-03</time>
+    <time datetime="2016-11-21T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-11-22</time>
     
   </p>
 </header>
@@ -97,24 +115,42 @@ Quick">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP的垃圾回收机制-Garbage-Collection"><span class="toc-number">1.</span> <span class="toc-text">PHP的垃圾回收机制(Garbage Collection)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3之前的是单纯的“引用计数”"><span class="toc-number">1.1.</span> <span class="toc-text">PHP5.3之前的是单纯的“引用计数”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在的问题"><span class="toc-number">1.1.1.</span> <span class="toc-text">存在的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3开始-Garbage-Collection"><span class="toc-number">1.2.</span> <span class="toc-text">PHP5.3开始 Garbage Collection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Garbage-Collection的机制"><span class="toc-number">1.2.1.</span> <span class="toc-text">Garbage Collection的机制</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+		<h1 id="PHP的垃圾回收机制-Garbage-Collection"><a href="#PHP的垃圾回收机制-Garbage-Collection" class="headerlink" title="PHP的垃圾回收机制(Garbage Collection)"></a>PHP的垃圾回收机制(Garbage Collection)</h1><h2 id="PHP5-3之前的是单纯的“引用计数”"><a href="#PHP5-3之前的是单纯的“引用计数”" class="headerlink" title="PHP5.3之前的是单纯的“引用计数”"></a>PHP5.3之前的是单纯的“引用计数”</h2><ul>
+<li>PHP5以后有的垃圾回收机制</li>
+<li>zval ：内存对象</li>
+<li>is_ref:bool 表示zval是否被变量引用</li>
+<li>refcount: 计数器</li>
+</ul>
+<p>当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表示内存对象没有被使用，该内存对象则进行销毁，垃圾回收完成</p>
+<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><p>当两个或者多个对象互相引用形成环状后，内存对象的计数器则不会消减为0，这时候这一组内存对象已经没用， 但是不能回收，从而导致内存泄漏，引擎将无法回收这些内存。</p>
+<h2 id="PHP5-3开始-Garbage-Collection"><a href="#PHP5-3开始-Garbage-Collection" class="headerlink" title="PHP5.3开始 Garbage Collection"></a>PHP5.3开始 Garbage Collection</h2><p>PHP5.3开始，使用了新的垃圾回收机制，在“引用计数”上实现了一种算法，来检测内存对象引用环的存在，以避免内存泄漏</p>
+<h3 id="Garbage-Collection的机制"><a href="#Garbage-Collection的机制" class="headerlink" title="Garbage Collection的机制"></a>Garbage Collection的机制</h3><p>当一个zval可能为垃圾时，回收算法会把这个zval放入一个内存缓冲区。当缓冲区达到最大临界值时（最大值可以设置），回收算法会循环遍历所有缓冲区中的zval，判断其是否为垃圾，并进行释放处理。或者我们在脚本中使用gc_collect_cycles,强制回收缓冲区中的垃圾。</p>
+<p>在php5.3的GC中，针对的垃圾做了如下说明：</p>
+<ul>
+<li>计数器增加时，肯定在用，不为垃圾，不放入缓冲区</li>
+<li>计数器为0时，该内存对象立即释放，不属于GC要处理对象</li>
+<li>计数器减少并且大于0，该内存对象还不能被释放，有可能是垃圾，放入缓冲区 PHP5.3开始中的Garbage Collection就是针对这种处理的</li>
+</ul>
+<p>开启/关闭垃圾回收机制可以通过修改php配置实现，也可以在程序中使用gc_enable() 和 gc_disable()开启和关闭。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/PHP/">PHP</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/PHP-garbage-collection/">PHP garbage collection</a>
+  </div>
 
 </div>
 
@@ -122,7 +158,7 @@ Quick">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.ipeiyan.com/2016/11/03/hello-world/" data-title="Hello World | 小猴儿" data-tsina="null" class="share clearfix">
+	  <div data-url="http://www.ipeiyan.com/2016/11/22/php-garbage-collection/" data-title="PHP的垃圾回收机制 | 小猴儿" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -135,19 +171,11 @@ Quick">
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/11/20/php-nginx/" title="CGI FastCGI PHP-FPM Nginx之间的关系">
-  <strong>上一篇：</strong><br/>
-  <span>
-  CGI FastCGI PHP-FPM Nginx之间的关系</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/09/29/gitblog/"  title="Git博客配置">
+<a href="/2016/11/20/php-nginx/"  title="CGI FastCGI PHP-FPM Nginx之间的关系">
  <strong>下一篇：</strong><br/> 
- <span>Git博客配置
+ <span>CGI FastCGI PHP-FPM Nginx之间的关系
 </span>
 </a>
 </div>
@@ -162,7 +190,7 @@ Quick">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP的垃圾回收机制-Garbage-Collection"><span class="toc-number">1.</span> <span class="toc-text">PHP的垃圾回收机制(Garbage Collection)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3之前的是单纯的“引用计数”"><span class="toc-number">1.1.</span> <span class="toc-text">PHP5.3之前的是单纯的“引用计数”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在的问题"><span class="toc-number">1.1.1.</span> <span class="toc-text">存在的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3开始-Garbage-Collection"><span class="toc-number">1.2.</span> <span class="toc-text">PHP5.3开始 Garbage Collection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Garbage-Collection的机制"><span class="toc-number">1.2.1.</span> <span class="toc-text">Garbage Collection的机制</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
