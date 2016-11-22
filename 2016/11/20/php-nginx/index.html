@@ -11,7 +11,7 @@
     
 
     
-    <meta name="description" content="CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
+    <meta name="description" content="首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
 
 CGI通信协议
 FastCGI
@@ -21,12 +21,13 @@ web服务器
 进程、主进程（master）、子进程（worker）
 PHP解析器
 
-CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务">
+CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务器和脚本语言通信的一个标准接口、一种规范、一种协议［协议］
+FastCGI是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CGI FastCGI PHP-FPM Nginx之间的关系">
 <meta property="og:url" content="http://www.ipeiyan.com/2016/11/20/php-nginx/index.html">
 <meta property="og:site_name" content="小猴儿">
-<meta property="og:description" content="CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
+<meta property="og:description" content="首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
 
 CGI通信协议
 FastCGI
@@ -36,11 +37,12 @@ web服务器
 进程、主进程（master）、子进程（worker）
 PHP解析器
 
-CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务">
-<meta property="og:updated_time" content="2016-11-20T16:30:02.517Z">
+CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务器和脚本语言通信的一个标准接口、一种规范、一种协议［协议］
+FastCGI是">
+<meta property="og:updated_time" content="2016-11-22T11:22:07.393Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CGI FastCGI PHP-FPM Nginx之间的关系">
-<meta name="twitter:description" content="CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
+<meta name="twitter:description" content="首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
 
 CGI通信协议
 FastCGI
@@ -50,7 +52,8 @@ web服务器
 进程、主进程（master）、子进程（worker）
 PHP解析器
 
-CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务">
+CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务器和脚本语言通信的一个标准接口、一种规范、一种协议［协议］
+FastCGI是">
 
     
     <link rel="alternative" href="/atom.xml" title="小猴儿" type="application/atom+xml">
@@ -124,11 +127,11 @@ CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CGI-FastCGI-PHP-FPM-PHP-CGI-Nginx之间的关系"><span class="toc-number">1.</span> <span class="toc-text">CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CGI是什么？"><span class="toc-number">1.1.</span> <span class="toc-text">CGI是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FastCGI是什么？以及它的工作原理"><span class="toc-number">1.2.</span> <span class="toc-text">FastCGI是什么？以及它的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-CGI"><span class="toc-number">1.3.</span> <span class="toc-text">PHP-CGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-FPM"><span class="toc-number">1.4.</span> <span class="toc-text">PHP-FPM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web服务器"><span class="toc-number">1.5.</span> <span class="toc-text">web服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache-Nginx与PHP的通信方式"><span class="toc-number">1.6.</span> <span class="toc-text">Apache Nginx与PHP的通信方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx如何处理来自PHP的请求"><span class="toc-number">1.7.</span> <span class="toc-text">Nginx如何处理来自PHP的请求</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CGI是什么？"><span class="toc-number">1.</span> <span class="toc-text">CGI是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FastCGI是什么？以及它的工作原理"><span class="toc-number">2.</span> <span class="toc-text">FastCGI是什么？以及它的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-CGI"><span class="toc-number">3.</span> <span class="toc-text">PHP-CGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-FPM"><span class="toc-number">4.</span> <span class="toc-text">PHP-FPM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web服务器"><span class="toc-number">5.</span> <span class="toc-text">web服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache-Nginx与PHP的通信方式"><span class="toc-number">6.</span> <span class="toc-text">Apache Nginx与PHP的通信方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx如何处理来自PHP的请求"><span class="toc-number">7.</span> <span class="toc-text">Nginx如何处理来自PHP的请求</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="CGI-FastCGI-PHP-FPM-PHP-CGI-Nginx之间的关系"><a href="#CGI-FastCGI-PHP-FPM-PHP-CGI-Nginx之间的关系" class="headerlink" title="CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系"></a>CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系</h1><p>首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？</p>
+		<p>首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？</p>
 <ul>
 <li>CGI通信协议</li>
 <li>FastCGI</li>
@@ -236,7 +239,7 @@ CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CGI-FastCGI-PHP-FPM-PHP-CGI-Nginx之间的关系"><span class="toc-number">1.</span> <span class="toc-text">CGI FastCGI PHP-FPM PHP-CGI Nginx之间的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CGI是什么？"><span class="toc-number">1.1.</span> <span class="toc-text">CGI是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FastCGI是什么？以及它的工作原理"><span class="toc-number">1.2.</span> <span class="toc-text">FastCGI是什么？以及它的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-CGI"><span class="toc-number">1.3.</span> <span class="toc-text">PHP-CGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-FPM"><span class="toc-number">1.4.</span> <span class="toc-text">PHP-FPM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web服务器"><span class="toc-number">1.5.</span> <span class="toc-text">web服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache-Nginx与PHP的通信方式"><span class="toc-number">1.6.</span> <span class="toc-text">Apache Nginx与PHP的通信方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx如何处理来自PHP的请求"><span class="toc-number">1.7.</span> <span class="toc-text">Nginx如何处理来自PHP的请求</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CGI是什么？"><span class="toc-number">1.</span> <span class="toc-text">CGI是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FastCGI是什么？以及它的工作原理"><span class="toc-number">2.</span> <span class="toc-text">FastCGI是什么？以及它的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-CGI"><span class="toc-number">3.</span> <span class="toc-text">PHP-CGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-FPM"><span class="toc-number">4.</span> <span class="toc-text">PHP-FPM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web服务器"><span class="toc-number">5.</span> <span class="toc-text">web服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache-Nginx与PHP的通信方式"><span class="toc-number">6.</span> <span class="toc-text">Apache Nginx与PHP的通信方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx如何处理来自PHP的请求"><span class="toc-number">7.</span> <span class="toc-text">Nginx如何处理来自PHP的请求</span></a></li></ol>
  
   </div>
 
