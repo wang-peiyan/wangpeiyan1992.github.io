@@ -4,44 +4,44 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>PHP的垃圾回收机制 | 小猴儿</title>
+    <title>PHP的垃圾回收机制(Garbage Collection) | 小猴儿</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Penny">
     
 
     
-    <meta name="description" content="PHP的垃圾回收机制(Garbage Collection)PHP5.3之前的是单纯的“引用计数”
+    <meta name="description" content="PHP5.3之前的是单纯的“引用计数”
 PHP5以后有的垃圾回收机制
 zval ：内存对象
 is_ref:bool 表示zval是否被变量引用
 refcount: 计数器
 
 当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表示内存对象没有被使用，该内存对象则进行销毁，垃圾回收完成
-存">
+存在的问题当两个或者多个对象互相引用形成环状后，内存对象的计数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP的垃圾回收机制">
+<meta property="og:title" content="PHP的垃圾回收机制(Garbage Collection)">
 <meta property="og:url" content="http://www.ipeiyan.com/2016/11/22/php-garbage-collection/index.html">
 <meta property="og:site_name" content="小猴儿">
-<meta property="og:description" content="PHP的垃圾回收机制(Garbage Collection)PHP5.3之前的是单纯的“引用计数”
+<meta property="og:description" content="PHP5.3之前的是单纯的“引用计数”
 PHP5以后有的垃圾回收机制
 zval ：内存对象
 is_ref:bool 表示zval是否被变量引用
 refcount: 计数器
 
 当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表示内存对象没有被使用，该内存对象则进行销毁，垃圾回收完成
-存">
-<meta property="og:updated_time" content="2016-11-22T11:09:19.875Z">
+存在的问题当两个或者多个对象互相引用形成环状后，内存对象的计数">
+<meta property="og:updated_time" content="2016-11-22T11:13:16.737Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP的垃圾回收机制">
-<meta name="twitter:description" content="PHP的垃圾回收机制(Garbage Collection)PHP5.3之前的是单纯的“引用计数”
+<meta name="twitter:title" content="PHP的垃圾回收机制(Garbage Collection)">
+<meta name="twitter:description" content="PHP5.3之前的是单纯的“引用计数”
 PHP5以后有的垃圾回收机制
 zval ：内存对象
 is_ref:bool 表示zval是否被变量引用
 refcount: 计数器
 
 当zval被变量引用时，refcount加1，当变量引用撤销掉后，refcount减1，当计数器=0时，表示内存对象没有被使用，该内存对象则进行销毁，垃圾回收完成
-存">
+存在的问题当两个或者多个对象互相引用形成环状后，内存对象的计数">
 
     
     <link rel="alternative" href="/atom.xml" title="小猴儿" type="application/atom+xml">
@@ -99,7 +99,7 @@ refcount: 计数器
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/11/22/php-garbage-collection/" title="PHP的垃圾回收机制" itemprop="url">PHP的垃圾回收机制</a>
+      <a href="/2016/11/22/php-garbage-collection/" title="PHP的垃圾回收机制(Garbage Collection)" itemprop="url">PHP的垃圾回收机制(Garbage Collection)</a>
   </h1>
   <p class="article-author">By
        
@@ -115,11 +115,11 @@ refcount: 计数器
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP的垃圾回收机制-Garbage-Collection"><span class="toc-number">1.</span> <span class="toc-text">PHP的垃圾回收机制(Garbage Collection)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3之前的是单纯的“引用计数”"><span class="toc-number">1.1.</span> <span class="toc-text">PHP5.3之前的是单纯的“引用计数”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在的问题"><span class="toc-number">1.1.1.</span> <span class="toc-text">存在的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3开始-Garbage-Collection"><span class="toc-number">1.2.</span> <span class="toc-text">PHP5.3开始 Garbage Collection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Garbage-Collection的机制"><span class="toc-number">1.2.1.</span> <span class="toc-text">Garbage Collection的机制</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3之前的是单纯的“引用计数”"><span class="toc-number">1.</span> <span class="toc-text">PHP5.3之前的是单纯的“引用计数”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在的问题"><span class="toc-number">1.1.</span> <span class="toc-text">存在的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3开始-Garbage-Collection"><span class="toc-number">2.</span> <span class="toc-text">PHP5.3开始 Garbage Collection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Garbage-Collection的机制"><span class="toc-number">2.1.</span> <span class="toc-text">Garbage Collection的机制</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="PHP的垃圾回收机制-Garbage-Collection"><a href="#PHP的垃圾回收机制-Garbage-Collection" class="headerlink" title="PHP的垃圾回收机制(Garbage Collection)"></a>PHP的垃圾回收机制(Garbage Collection)</h1><h2 id="PHP5-3之前的是单纯的“引用计数”"><a href="#PHP5-3之前的是单纯的“引用计数”" class="headerlink" title="PHP5.3之前的是单纯的“引用计数”"></a>PHP5.3之前的是单纯的“引用计数”</h2><ul>
+		<h2 id="PHP5-3之前的是单纯的“引用计数”"><a href="#PHP5-3之前的是单纯的“引用计数”" class="headerlink" title="PHP5.3之前的是单纯的“引用计数”"></a>PHP5.3之前的是单纯的“引用计数”</h2><ul>
 <li>PHP5以后有的垃圾回收机制</li>
 <li>zval ：内存对象</li>
 <li>is_ref:bool 表示zval是否被变量引用</li>
@@ -158,7 +158,7 @@ refcount: 计数器
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.ipeiyan.com/2016/11/22/php-garbage-collection/" data-title="PHP的垃圾回收机制 | 小猴儿" data-tsina="null" class="share clearfix">
+	  <div data-url="http://www.ipeiyan.com/2016/11/22/php-garbage-collection/" data-title="PHP的垃圾回收机制(Garbage Collection) | 小猴儿" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -190,7 +190,7 @@ refcount: 计数器
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP的垃圾回收机制-Garbage-Collection"><span class="toc-number">1.</span> <span class="toc-text">PHP的垃圾回收机制(Garbage Collection)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3之前的是单纯的“引用计数”"><span class="toc-number">1.1.</span> <span class="toc-text">PHP5.3之前的是单纯的“引用计数”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在的问题"><span class="toc-number">1.1.1.</span> <span class="toc-text">存在的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3开始-Garbage-Collection"><span class="toc-number">1.2.</span> <span class="toc-text">PHP5.3开始 Garbage Collection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Garbage-Collection的机制"><span class="toc-number">1.2.1.</span> <span class="toc-text">Garbage Collection的机制</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3之前的是单纯的“引用计数”"><span class="toc-number">1.</span> <span class="toc-text">PHP5.3之前的是单纯的“引用计数”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在的问题"><span class="toc-number">1.1.</span> <span class="toc-text">存在的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP5-3开始-Garbage-Collection"><span class="toc-number">2.</span> <span class="toc-text">PHP5.3开始 Garbage Collection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Garbage-Collection的机制"><span class="toc-number">2.1.</span> <span class="toc-text">Garbage Collection的机制</span></a></li></ol></li></ol>
  
   </div>
 
