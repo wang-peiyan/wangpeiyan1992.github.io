@@ -4,56 +4,47 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>CGI FastCGI PHP-FPM Nginx之间的关系 | 小猴儿</title>
+    <title>Nginx的Location匹配规则 | 小猴儿</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Penny">
     
 
     
-    <meta name="description" content="首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
+    <meta name="description" content="Location详解及精准匹配Location的语法：location 定位的意思，根据Uri来进行不同的定位，在虚拟主机的配置中，是必不可少的，location可以把网站的不同部分，定位到不同的处理方？–这时就需要location语法如下：
 
-CGI通信协议
-FastCGI
-PHP-CGI
-PHP-FPM
-web服务器
-进程、主进程（master）、子进程（worker）
-PHP解析器
 
-CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务器和脚本语言通信的一个标准接口、一种规范、一种协议［协议］
-FastCGI是">
+&amp;gt;
+
+
+location [=/~/~*/^~] patt {
+}
+中括号可以不写任何参数，此时称为一般匹配，也可以写参数因此，大类型可以分为3种">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CGI FastCGI PHP-FPM Nginx之间的关系">
-<meta property="og:url" content="http://www.ipeiyan.com/2016/11/20/php-nginx/index.html">
+<meta property="og:title" content="Nginx的Location匹配规则">
+<meta property="og:url" content="http://www.ipeiyan.com/2016/11/14/nginx的location/index.html">
 <meta property="og:site_name" content="小猴儿">
-<meta property="og:description" content="首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
+<meta property="og:description" content="Location详解及精准匹配Location的语法：location 定位的意思，根据Uri来进行不同的定位，在虚拟主机的配置中，是必不可少的，location可以把网站的不同部分，定位到不同的处理方？–这时就需要location语法如下：
 
-CGI通信协议
-FastCGI
-PHP-CGI
-PHP-FPM
-web服务器
-进程、主进程（master）、子进程（worker）
-PHP解析器
 
-CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务器和脚本语言通信的一个标准接口、一种规范、一种协议［协议］
-FastCGI是">
-<meta property="og:updated_time" content="2016-11-22T11:22:07.393Z">
+&amp;gt;
+
+
+location [=/~/~*/^~] patt {
+}
+中括号可以不写任何参数，此时称为一般匹配，也可以写参数因此，大类型可以分为3种">
+<meta property="og:updated_time" content="2016-11-27T15:08:35.986Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CGI FastCGI PHP-FPM Nginx之间的关系">
-<meta name="twitter:description" content="首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？
+<meta name="twitter:title" content="Nginx的Location匹配规则">
+<meta name="twitter:description" content="Location详解及精准匹配Location的语法：location 定位的意思，根据Uri来进行不同的定位，在虚拟主机的配置中，是必不可少的，location可以把网站的不同部分，定位到不同的处理方？–这时就需要location语法如下：
 
-CGI通信协议
-FastCGI
-PHP-CGI
-PHP-FPM
-web服务器
-进程、主进程（master）、子进程（worker）
-PHP解析器
 
-CGI是什么？CGI(Common Gateway Interface)通用网关接口，web服务器和脚本语言通信的一个标准接口、一种规范、一种协议［协议］
-FastCGI是">
+&amp;gt;
+
+
+location [=/~/~*/^~] patt {
+}
+中括号可以不写任何参数，此时称为一般匹配，也可以写参数因此，大类型可以分为3种">
 
     
     <link rel="alternative" href="/atom.xml" title="小猴儿" type="application/atom+xml">
@@ -111,14 +102,14 @@ FastCGI是">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/11/20/php-nginx/" title="CGI FastCGI PHP-FPM Nginx之间的关系" itemprop="url">CGI FastCGI PHP-FPM Nginx之间的关系</a>
+      <a href="/2016/11/14/nginx的location/" title="Nginx的Location匹配规则" itemprop="url">Nginx的Location匹配规则</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Penny" target="_blank" itemprop="author">Penny</a>
 		
   <p class="article-time">
-    <time datetime="2016-11-19T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-11-20</time>
+    <time datetime="2016-11-13T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-11-14</time>
     
   </p>
 </header>
@@ -127,56 +118,131 @@ FastCGI是">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CGI是什么？"><span class="toc-number">1.</span> <span class="toc-text">CGI是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FastCGI是什么？以及它的工作原理"><span class="toc-number">2.</span> <span class="toc-text">FastCGI是什么？以及它的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-CGI"><span class="toc-number">3.</span> <span class="toc-text">PHP-CGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-FPM"><span class="toc-number">4.</span> <span class="toc-text">PHP-FPM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web服务器"><span class="toc-number">5.</span> <span class="toc-text">web服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache-Nginx与PHP的通信方式"><span class="toc-number">6.</span> <span class="toc-text">Apache Nginx与PHP的通信方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx如何处理来自PHP的请求"><span class="toc-number">7.</span> <span class="toc-text">Nginx如何处理来自PHP的请求</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Location详解及精准匹配"><span class="toc-number">1.</span> <span class="toc-text">Location详解及精准匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Location的语法："><span class="toc-number">1.1.</span> <span class="toc-text">Location的语法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看事例"><span class="toc-number">1.2.</span> <span class="toc-text">查看事例</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>首先我们先了解以下几个概念？它们都是什么？才能更好的知道它们之间有什么关系？</p>
-<ul>
-<li>CGI通信协议</li>
-<li>FastCGI</li>
-<li>PHP-CGI</li>
-<li>PHP-FPM</li>
-<li>web服务器</li>
-<li>进程、主进程（master）、子进程（worker）</li>
-<li>PHP解析器</li>
-</ul>
-<h2 id="CGI是什么？"><a href="#CGI是什么？" class="headerlink" title="CGI是什么？"></a>CGI是什么？</h2><p>CGI(Common Gateway Interface)通用网关接口，web服务器和脚本语言通信的一个标准接口、一种规范、一种协议［协议］</p>
-<h2 id="FastCGI是什么？以及它的工作原理"><a href="#FastCGI是什么？以及它的工作原理" class="headerlink" title="FastCGI是什么？以及它的工作原理"></a>FastCGI是什么？以及它的工作原理</h2><p>CGI的升级版［协议］<br>FastCGI是基于CGI架构的扩展，它的核心思想就是在webserver和具体CGI程序之间建立一个智能的可持续的中间层，统管CGI程序的运行，这样webserver只需要将请求提交给这个层，这个层再派生出几个可复用的CGI程序实例，然后再把请求分发给这些实例，这些实例是可控的，可持续 可复用的，因此一方面避免了进程反复fork，另一方面又可以通过中间层的控制和探测机制来监视这些实例的运行情况，根据不同的状况fork或者回收实例，达到灵活性和稳定性兼得的目的。</p>
-<p>特点：</p>
-<ul>
-<li>FastCGI采用C/S结构，可以将web服务器和动态脚本解析服务器分离（二者可以部署在不同的服务器上），让web服务器专一处理静态请求和转发动态请求到脚本解析服务器；脚本解析服务器则专一处理动态脚本的请求</li>
-<li>FastCGI技术目前支持语言有：C/C++ 、java、Perl、Tcl、Python、SmallTalk、Ruby等。相关模块在Apache、IIS、Lighttpd等流行的服务器上也是可用的</li>
-<li>FastCGI不依赖于任何Web服务器的内部架构，因此即使服务器技术的变化，FastCGI依然稳定不变</li>
-<li>因为是多进程，所以比CGI线程消耗更多的服务器内存，PHP-CGI解析起每进程消耗7至25兆内存，将这个数字乘以50或100就是很大的内存数</li>
-</ul>
-<h2 id="PHP-CGI"><a href="#PHP-CGI" class="headerlink" title="PHP-CGI"></a>PHP-CGI</h2><p>实现了CGI接口协议的PHP脚本解析器［程序］</p>
-<p>特点：</p>
-<ul>
-<li>PHP-CGI变更PHP.ini配置后需重启PHP-CGI才能让新的php.ini生效，不可以平滑重启</li>
-<li>直接杀死PHP-CGI进程，PHP就不能运行了。</li>
-</ul>
-<h2 id="PHP-FPM"><a href="#PHP-FPM" class="headerlink" title="PHP-FPM"></a>PHP-FPM</h2><p>PHP-FPM是管理和调度PHP-CGI进程，进而实现FastCGI接口协议的程序，被PHP官方收购 在5.2之前属于PHP的扩展和补丁，5.3以后就集成在PHP的内核中。［程序］</p>
-<p>特点：</p>
-<ul>
-<li>PHP-FPM提供了更好的PHP进程管理方式，可以有效控制内存和进程、可以平滑重载PHP配置。在./configure的时候–enable-fpm 参数即可开启PHP-FPM</li>
-</ul>
-<h2 id="web服务器"><a href="#web服务器" class="headerlink" title="web服务器"></a>web服务器</h2><p>webserver（Nginx Apache IIs ）只能处理静态文件，对于PHP这样的动态脚本无能为力，只能交给PHP自己来处理于是有了下面这个流程：</p>
-<ul>
-<li>服务器（webserver）－－－协议（CGI通信）－－－ 程序（PHP-CGI）－－－ 脚本（PHP）</li>
-<li>服务器（webserver）－－－协议（FastCGI通信）－－－ PHP-FPM －－－ 程序（PHP-CGI多个）－－－ 脚本（PHP）</li>
-</ul>
+		<h1 id="Location详解及精准匹配"><a href="#Location详解及精准匹配" class="headerlink" title="Location详解及精准匹配"></a>Location详解及精准匹配</h1><h2 id="Location的语法："><a href="#Location的语法：" class="headerlink" title="Location的语法："></a>Location的语法：</h2><p>location 定位的意思，根据Uri来进行不同的定位，在虚拟主机的配置中，是必不可少的，location可以把<br>网站的不同部分，定位到不同的处理方？–这时就需要location<br>语法如下：</p>
 <blockquote>
-<p>第一种：架构上有个性能问题，CGI对每个请求回parse一遍对应脚本的配置文件（如PHP.ini）,加载配置和扩展，初始化执行环境，性能非常差，所以有了第二种流程</p>
-<p>第二种：那么实现FastCGI协议的程序，如PHP-FPM是什么角色呢？FastCGI会先启动一个master程序，解析配置文件，初始化执行环境，然后在启动多个worker进程，这个worker就是PHP-CGI，当请求过来时，master会传递给一个worker，然后立即可以接受下一个请求，这样就避免了重复的劳动，效率自然是高，而去当worker不够用时，master可以根据配置预先启动几个worker等着，比如20worker，当然空闲的worker 太多时，也会停掉一些，这样就提高来性能，也解约了资源，这就是FastCGI对进程的管理。最大的worker进程数时128</p>
+<blockquote>
+<p>&gt;</p>
 </blockquote>
-<h2 id="Apache-Nginx与PHP的通信方式"><a href="#Apache-Nginx与PHP的通信方式" class="headerlink" title="Apache Nginx与PHP的通信方式"></a>Apache Nginx与PHP的通信方式</h2><p>PHP-FPM作为一个独立的进程存在，通过socket与Nginx建立连接，而mod_PHP时作为一个模块被加载进了Apache服务器，同时他们两作为CGI调度管理器，他们对其管理的方式也不一样。mod_PHP这种嵌入的方式最大的弊端就是内存占用大，不论是否用到PHP解析器都会将其加载到内存中，典型的就是处理CSS、JS之类的静态文件时完全没有必要加载解析器</p>
-<h2 id="Nginx如何处理来自PHP的请求"><a href="#Nginx如何处理来自PHP的请求" class="headerlink" title="Nginx如何处理来自PHP的请求"></a>Nginx如何处理来自PHP的请求</h2><ul>
-<li>nginx服务器启动时，自动载入fastcgi进程管理器（php-fpm）</li>
-<li>php-fpm自动初始化，并且启动多个cgi解释进程（phpcgi）并等待nginx链接</li>
-<li>当nginx服务器收到需要解析的php请求时，将请求转到fastcgi接口(soket),fastcgi进程管理器（php-fpm）收到请求后连接phpcgi解释器，nginx服务器将cgi环境变量和标准输入发送给cgi解释器（php-cgi）</li>
-<li>FastCGI子进程（php-cgi）完成处理后将标准输出和错误信息从同一链接返回，webserver，当fastcgi子进程关闭连接时，请求便告知处理完成，Fastcgi子进程（php-cgi）接着等待并处理来自webserver请求的（php-fpm）分配的任务</li>
+</blockquote>
+<pre><code>location [=/~/~*/^~] patt {
+}
+</code></pre><p>中括号可以不写任何参数，此时称为一般匹配，也可以写参数<br>因此，大类型可以分为3种</p>
+<ul>
+<li>location      patt   {一般匹配}</li>
+<li>location  =  patt   {精准匹配}</li>
+<li>location  ~  patt   {正则匹配}</li>
 </ul>
+<p>首先看有没有精准匹配，如果有，则停止匹配过程。（优先匹配精准匹配）</p>
+<blockquote>
+<blockquote>
+<p>&gt;</p>
+</blockquote>
+</blockquote>
+<pre><code>location = patt{
+    config A
+}
+</code></pre><p>如果$uri == patt,匹配成功，使用config A</p>
+<h2 id="查看事例"><a href="#查看事例" class="headerlink" title="查看事例"></a>查看事例</h2><p>例一：</p>
+<blockquote>
+<blockquote>
+<p>&gt;</p>
+</blockquote>
+</blockquote>
+<pre><code>location = / {
+    root   /var/www/html;
+    index  index.htm index.htm
+}
+location / {
+    root  /usr/local/nginx/html;
+    index index.html index.htm
+}
+</code></pre><p>如果访问 <a href="http://xxx.com/" target="_blank" rel="external">http://xxx.com/</a><br>定位流程是：</p>
+<ol>
+<li>精准匹配中“/”,得到index页为       index.htm</li>
+<li>再次访问/index.htm,此次内部跳转uri已经是“/index.htm”，根目录为/usr/local/nginx/html</li>
+<li>最终结果，访问了/usr/local/nginx/html/index.htm </li>
+<li>最终结果是404 not found</li>
+</ol>
+<p>例子：</p>
+<blockquote>
+<blockquote>
+<p>&gt;</p>
+</blockquote>
+</blockquote>
+<pre><code>location = /index.htm{
+    root   /var/www/html;
+    index  index.htm index.html;
+}
+location /index.htm {
+    root  /usr/local/nginx/html;
+    index index.html index.htm;
+}
+</code></pre><p>如果我们访问<a href="http://xx.com/" target="_blank" rel="external">http://xx.com/</a></p>
+<ol>
+<li>没有规则可以匹配地址的时候，它会默认匹配到nginx的默认配置 /usr/local/nginx/html<br>如果我们访问<a href="http://xx.com/index.html" target="_blank" rel="external">http://xx.com/index.html</a></li>
+<li>精准匹配匹配不到</li>
+<li>那么一般匹配可以匹配到”/index.htm”这几个字符，因此匹配到/usr/local/nginx/html</li>
+</ol>
+<p>例子：</p>
+<blockquote>
+<blockquote>
+<p>&gt;</p>
+</blockquote>
+</blockquote>
+<pre><code>location = / {
+    root   html;
+    index  index.htm index.htm;
+}
+location ~ image {
+    root  /var/www;
+    index index.html index.htm;
+}
+</code></pre><p>如果我们访问<a href="http://xx.com/image/logo.png" target="_blank" rel="external">http://xx.com/image/logo.png</a></p>
+<ol>
+<li><p>此时，“/”与“/image/logo.png” 匹配</p>
+</li>
+<li><p>同时，“image”正则与“image/logo.png”也能匹配<br>正则表达式的成果将会使用</p>
+</li>
+<li><p>图片真正会访问 /var/www/image/logo.png</p>
+</li>
+</ol>
+<p>例子：</p>
+<blockquote>
+<blockquote>
+<p>&gt;</p>
+</blockquote>
+</blockquote>
+<pre><code>location = / {
+    root   html;
+    index  index.htm index.htm;
+}
+location /foo {
+    root  /var/www/html;
+    index index.html index.htm;
+}
+</code></pre><p>我们访问 <a href="http://xxx.com/foo" target="_blank" rel="external">http://xxx.com/foo</a></p>
+<ol>
+<li>对于uri”/foo”,两个location的patt,都能匹配他们，即“/”能从左前缀匹配‘/foo’，‘/foo’也能左前缀匹配‘/foo’，此时，真正访问的是 /var/www/html;</li>
+<li>原因：’/foo’匹配的更长，因此使用之</li>
+</ol>
+<p>总结：</p>
+<p>精准匹配优先级总是高于一般匹配，正则优先级高于一般匹配 ，一般匹配先匹配命中长的</p>
+<ol>
+<li>首先看精准匹配是否命中，如果命中，则直接返回精准匹配结果，并结束解析过程</li>
+<li>如果精准匹配没有命中，接着就看是否命中一般匹配：<ul>
+<li>如果命中一个，则将匹配结果记忆起来（解析过程没有结束）</li>
+<li>如果命中多个，则将匹配最长的结果记忆起来（解析过程没有结束）</li>
+</ul>
+</li>
+<li>最后看正则是否匹配，如果正则匹配命中，则忽略一般匹配命中的，直接将正则匹配结果返回，如果正则匹配没有命中，则将一般匹配最长的结果返回</li>
+</ol>
+<p>延伸分析：</p>
+<p>a. 一般匹配命中，顺序无所谓，是因为按命中的长短来确定的</p>
+<p>b. 正则匹配命中，顺序有所谓，是因为从上到下匹配命中的</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -190,7 +256,7 @@ FastCGI是">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/PHP-FPM-Nginx/">PHP-FPM Nginx</a>
+  <span></span> <a href="/tags/Location/">Location</a>
   </div>
 
 </div>
@@ -199,7 +265,7 @@ FastCGI是">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.ipeiyan.com/2016/11/20/php-nginx/" data-title="CGI FastCGI PHP-FPM Nginx之间的关系 | 小猴儿" data-tsina="null" class="share clearfix">
+	  <div data-url="http://www.ipeiyan.com/2016/11/14/nginx的location/" data-title="Nginx的Location匹配规则 | 小猴儿" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -213,18 +279,18 @@ FastCGI是">
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/11/22/php-garbage-collection/" title="PHP的垃圾回收机制(Garbage Collection)">
+ <a href="/2016/11/20/php-nginx/" title="CGI FastCGI PHP-FPM Nginx之间的关系">
   <strong>上一篇：</strong><br/>
   <span>
-  PHP的垃圾回收机制(Garbage Collection)</span>
+  CGI FastCGI PHP-FPM Nginx之间的关系</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/11/14/nginx的location/"  title="Nginx的Location匹配规则">
+<a href="/2016/11/03/hello-world/"  title="Hello World">
  <strong>下一篇：</strong><br/> 
- <span>Nginx的Location匹配规则
+ <span>Hello World
 </span>
 </a>
 </div>
@@ -239,7 +305,7 @@ FastCGI是">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CGI是什么？"><span class="toc-number">1.</span> <span class="toc-text">CGI是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FastCGI是什么？以及它的工作原理"><span class="toc-number">2.</span> <span class="toc-text">FastCGI是什么？以及它的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-CGI"><span class="toc-number">3.</span> <span class="toc-text">PHP-CGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-FPM"><span class="toc-number">4.</span> <span class="toc-text">PHP-FPM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web服务器"><span class="toc-number">5.</span> <span class="toc-text">web服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache-Nginx与PHP的通信方式"><span class="toc-number">6.</span> <span class="toc-text">Apache Nginx与PHP的通信方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx如何处理来自PHP的请求"><span class="toc-number">7.</span> <span class="toc-text">Nginx如何处理来自PHP的请求</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Location详解及精准匹配"><span class="toc-number">1.</span> <span class="toc-text">Location详解及精准匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Location的语法："><span class="toc-number">1.1.</span> <span class="toc-text">Location的语法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看事例"><span class="toc-number">1.2.</span> <span class="toc-text">查看事例</span></a></li></ol></li></ol>
  
   </div>
 
